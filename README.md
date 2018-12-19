@@ -30,6 +30,31 @@ https://drive.google.com/file/d/1k2AtIN0EZXWT5ejulS-hOc3azC2hVzX7/view?usp=shari
 
 =============================================================================================================
 
+<distributionManagement>
+  
+  <repository>
+  
+     <id>deployment</id>
+     
+     <name>Internal Releases</name>
+     
+     <url>http://192.168.1.11:8080/nexus/content/repositories/releases/</url>
+     
+  </repository>  
+  
+  <snapshotRepository>
+  
+     <id>deployment</id>
+     
+     <name>Internal Releases</name>
+     
+     <url>http://192.168.1.11:8080/nexus/content/repositories/snapshots/</url>
+     
+  </snapshotRepository>
+  
+</distributionManagement>
+
+
 
 Download RPM file:   wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.rpm"
 
