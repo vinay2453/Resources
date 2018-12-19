@@ -1,0 +1,864 @@
+#!/bin/bash
+echo "Scripting is fun!"
+
+--------------------------------
+
+#!/bin/csh
+echo "This script uses csh as the interpreter."
+
+-------------------------------------------------
+
+#!/bin/ksh
+echo "This script uses ksh as the interpreter."
+
+-------------------------------------------------
+
+#!/bin/zsh
+echo "This script uses zsh as the interpreter."
+
+---------------------------------------------------
+
+#!/usr/bin/python
+print "This is a Python script."
+---------------------------------------------------
+# Variables defining
+
+#!/bin/bash
+MY_SHELL="bash"
+echo "I like the $MY_SHELL shell."
+---------------------------------------------
+
+#!/bin/bash
+MY_SHELL="bash"
+echo "I like the ${MY_SHELL} shell."
+
+--------------------------------------------------
+
+#!/bin/bash
+MY_SHELL="bash"
+echo "I am ${MY_SHELL}ing on my keyboard."
+
+--------------------------------------------------
+
+#!/bin/bash
+MY_SHELL="bash"
+echo "I am $MY_SHELLing on my keyboard."
+
+--------------------------------------------------
+
+#!/bin/bash 
+NAME=$1 
+readonly NAME 
+NAME=“RNS“
+
+./test.sh ip un pwd 
+
+--------------------------------------------------
+
+#!/bin/sh
+
+#Here is a sample run for the above script −
+#./cmd_line_args.sh Rise N Shine
+
+echo "File Name: $0"
+echo "First Parameter : $1"
+echo "Second Parameter : $2"
+echo "Third Parameter : $3"
+echo "Quoted Values: $@"
+echo "Quoted Values: $*"
+echo "Total Number of Parameters : $#"
+echo "The exit status of the last command  : $?"
+echo "The process number of the current shell : $$"
+echo "The process number of the last background : $!"
+
+---------------------------------------------------
+#!/bin/bash
+SERVER_NAME=$(hostname)
+echo "You are running this script on ${SERVER_NAME}."
+
+------------------------------------------------------
+
+#!/bin/bash
+SERVER_NAME=`hostname`
+echo "You are running this script on ${SERVER_NAME}."
+------------------------------------------------------
+
+#!/bin/bash
+
+MY_SHELL="bash"
+
+if [ "$MY_SHELL" = "bash" ]
+then
+  echo "You seem to like the bash shell."
+  echo "You seem to like the bash shell."
+fi
+-----------------------------------------------------
+#!/bin/bash
+
+MY_SHELL="csh"
+
+if [ "$MY_SHELL" = "bash" ]
+then
+  echo "You seem to like the bash shell."
+else
+  echo "You don't seem to like the bash shell."
+fi
+------------------------------------------------------
+
+#!/bin/bash
+
+MY_SHELL="csh"
+
+if [ "$MY_SHELL" = "bash" ]
+then
+  echo "You seem to like the bash shell."
+elif [ "$MY_SHELL" = "csh" ]
+then
+  echo "You seem to like the csh shell."
+elif [ "$MY_SHELL" = "zsh" ]
+then
+  echo "You seem to like the zshell."
+else
+  echo "You don't seem to like the zshell."
+fi
+
+--------------------------------------------------------
+#!/bin/bash
+
+for COLOR in red green blue
+do
+  echo "COLOR: $COLOR"
+done
+-----------------------------------------------------
+#!/bin/bash
+
+COLORS="red green blue"
+
+for COLOR in $COLORS
+do
+  echo "COLOR: $COLOR"
+done
+------------------------------------------------------
+#!/bin/sh
+# Arithmatic Operators
+
+a=10
+b=20
+
+val=`expr $a + $b`
+echo "a + b : $val"
+
+val=`expr $a - $b`
+echo "a - b : $val"
+
+val=`expr $a \* $b`
+echo "a * b : $val"
+
+val=`expr $b / $a`
+echo "b / a : $val"
+
+val=`expr $b % $a`
+echo "b % a : $val"
+
+if [ $a == $b ]
+then
+   echo "a is equal to b"
+fi
+
+if [ $a != $b ]
+then
+   echo "a is not equal to b"
+fi
+---------------------------------------------------------
+#!/bin/sh
+# Relational Operators
+
+a=10
+b=20
+
+if [ $a -eq $b ]
+then
+   echo "$a -eq $b : a is equal to b"
+else
+   echo "$a -eq $b: a is not equal to b"
+fi
+
+if [ $a -ne $b ]
+then
+   echo "$a -ne $b: a is not equal to b"
+else
+   echo "$a -ne $b : a is equal to b"
+fi
+
+if [ $a -gt $b ]
+then
+   echo "$a -gt $b: a is greater than b"
+else
+   echo "$a -gt $b: a is not greater than b"
+fi
+
+if [ $a -lt $b ]
+then
+   echo "$a -lt $b: a is less than b"
+else
+   echo "$a -lt $b: a is not less than b"
+fi
+
+if [ $a -ge $b ]
+then
+   echo "$a -ge $b: a is greater or  equal to b"
+else
+   echo "$a -ge $b: a is not greater or equal to b"
+fi
+
+if [ $a -le $b ]
+then
+   echo "$a -le $b: a is less or  equal to b"
+else
+   echo "$a -le $b: a is not less or equal to b"
+fi
+-----------------------------------------------------------
+#!/bin/sh
+# Boolean Operator
+
+a=10
+b=20
+
+if [ $a != $b ]
+then
+   echo "$a != $b : a is not equal to b"
+else
+   echo "$a != $b: a is equal to b"
+fi
+
+if [ $a -lt 100 -a $b -gt 15 ]
+then
+   echo "$a -lt 100 -a $b -gt 15 : returns true"
+else
+   echo "$a -lt 100 -a $b -gt 15 : returns false"
+fi
+
+if [ $a -lt 100 -o $b -gt 100 ]
+then
+   echo "$a -lt 100 -o $b -gt 100 : returns true"
+else
+   echo "$a -lt 100 -o $b -gt 100 : returns false"
+fi
+
+if [ $a -lt 5 -o $b -gt 100 ]
+then
+   echo "$a -lt 5 -o $b -gt 100 : returns true"
+else
+   echo "$a -lt 5 -o $b -gt 100 : returns false"
+fi
+-------------------------------------------------------------
+#!/bin/sh
+# String Operator
+
+a="abc"
+b="efg"
+
+if [ $a = $b ]
+then
+   echo "$a = $b : a is equal to b"
+else
+   echo "$a = $b: a is not equal to b"
+fi
+
+if [ $a != $b ]
+then
+   echo "$a != $b : a is not equal to b"
+else
+   echo "$a != $b: a is equal to b"
+fi
+
+if [ -z $a ]
+then
+   echo "-z $a : string length is zero"
+else
+   echo "-z $a : string length is not zero"
+fi
+
+if [ -n $a ]
+then
+   echo "-n $a : string length is not zero"
+else
+   echo "-n $a : string length is zero"
+fi
+
+if [ $a ]
+then
+   echo "$a : string is not empty"
+else
+   echo "$a : string is empty"
+fi
+---------------------------------------------------------------
+#!/bin/sh
+# File Test Operator
+#Assume a variable file holds an existing file name "/u01/shell_scripts/test.sh" whose size is 100 bytes and has read, write and execute permission on −
+
+file="/tmp/test.sh"
+
+if [ -r $file ]
+then
+   echo "File has read access"
+else
+   echo "File does not have read access"
+fi
+
+if [ -w $file ]
+then
+   echo "File has write permission"
+else
+   echo "File does not have write permission"
+fi
+
+if [ -x $file ]
+then
+   echo "File has execute permission"
+else
+   echo "File does not have execute permission"
+fi
+
+if [ -f $file ]
+then
+   echo "File is an ordinary file"
+else
+   echo "This is sepcial file"
+fi
+
+if [ -d $file ]
+then
+   echo "File is a directory"
+else
+   echo "This is not a directory"
+fi
+
+if [ -s $file ]
+then
+   echo "File size is not zero"
+else
+   echo "File size is zero"
+fi
+
+if [ -e $file ]
+then
+   echo "File exists"
+else
+   echo "File does not exist"
+fi
+
+if [ -b $file ]
+then
+   echo "File Block Special File"
+else
+   echo "This is not Block Special File"
+fi
+
+------------------------------------------------------
+#Exit Statuses and Return Codes:
+
+#!/bin/bash
+
+HOST="google.com"
+
+ping -c 1 $HOST
+
+if [ "$?" -eq "0" ]
+then
+  echo "$HOST reachable."
+  exit 0
+else
+  echo "$HOST unreachable."
+  exit 1
+fi
+------------------------------------------------------
+
+#!/bin/bash
+
+HOST="google.com"
+
+ping -c 1 $HOST
+
+if [ "$?" -ne "0" ]
+then
+  echo "$HOST unreachable."
+fi
+------------------------------------------------------
+
+#!/bin/bash
+
+HOST="google.com"
+
+ping -c 1 $HOST
+RETURN_CODE=$?
+
+if [ "$RETURN_CODE" -ne "0" ]
+then
+  echo "$HOST unreachable."
+fi
+-----------------------------------------------------
+
+#!/bin/bash
+
+HOST="google.com"
+
+ping -c 1 $HOST && echo "$HOST reachable."
+---------------------------------------------
+
+#!/bin/bash
+
+HOST="google.com"
+
+ping -c 1 $HOST || echo "$HOST unreachable."
+
+----------------------------------------------------
+
+#!/bin/bash
+
+HOST="google.com"
+
+ping -c 1 $HOST
+
+if [ "$?" -ne "0" ]
+then
+  echo "$HOST unreachable."
+  exit 1
+fi
+exit 0
+--------------------------------------------------
+
+#!/bin/bash
+
+hello() {
+    echo "Hello!"
+}
+
+hello
+hello
+hello
+
+--------------------------------------------------
+
+#!/bin/bash
+
+hello() {
+    echo "Hello!"
+    now
+}
+
+now() {
+    echo "It's $(date +%r)"
+}
+
+hello
+---------------------------------------------------
+
+#!/bin/bash
+
+hello() {
+    echo "Hello!"
+    now
+}
+
+hello
+# This will cause an error as the "now()" function is not yet defined.
+
+now() {
+    echo "It's $(date +%r)"
+}
+--------------------------------------------------
+
+#!/bin/bash
+
+hello() {
+    echo "Hello $1"
+}
+
+hello rns
+--------------------------------------------------
+
+#!/bin/bash
+
+hello() {
+    for NAME in $@
+    do
+        echo "Hello $NAME"
+    done
+}
+
+hello rns rns1 rns2
+-----------------------------------------------------
+
+#!/bin/bash
+
+my_function() {
+    echo "$GLOBAL_VAR"
+}
+
+# The value of GLOBAL_VAR is available to my_function
+my_function
+
+
+GLOBAL_VAR=1
+------------------------------------------------------
+#!/bin/bash
+
+my_function() {
+    echo "$GLOBAL_VAR"
+}
+
+# The value of GLOBAL_VAR is NOT available to my_function since GLOBAL_VAR was defined after my_function was called.
+my_function
+GLOBAL_VAR=1
+------------------------------------------------------
+
+#!/bin/bash
+
+my_function() {
+    GLOBAL_VAR=1
+}
+
+# GLOBAL_VAR not available yet.
+echo "GLOBAL_VAR value BEFORE my_function called: $GLOBAL_VAR"
+
+my_function
+
+# GLOBAL_VAR is NOW available
+echo "GLOBAL_VAR value AFTER my_function called: $GLOBAL_VAR"
+
+--------------------------------------------------------
+
+#!/bin/bash
+
+my_function() {
+    local LOCAL_VAR=1
+    echo "LOCAL_VAR can be accessed inside of the function: $LOCAL_VAR"
+}
+
+my_function
+
+# LOCAL_VAR is not available outside of the function.
+echo "LOCAL_VAR can NOT be accessed outside of the function: $LOCAL_VAR"
+
+----------------------------------------------------------
+
+#!/bin/bash
+
+backup_file () {
+  # This function creates a backup of a file.
+
+  # Make sure the file exists.
+  if [ -f "$1" ] 
+  then
+    # Make the BACKUP_FILE variable local to this function.
+    local BACKUP_FILE="/tmp/$(basename ${1}).$(date +%F).$$"
+    echo "Backing up $1 to ${BACKUP_FILE}"
+
+    # The exit status of the function will be the exit status of the cp command.
+    cp $1 $BACKUP_FILE
+  else
+    # The file does not exist, so return an non-zero exit status.
+    return 1
+  fi
+}
+
+# Call the function
+backup_file /etc/hosts
+
+# Make a decision based on the exit status of the function.
+# Note this is for demonstration purposes.  You could have
+# put this functionality inside of the backup_file function.
+if [ $? -eq "0" ]
+then
+  echo "Backup succeeded!"
+else
+  echo "Backup failed!"
+  # Abort the script and return a non-zero exit status.
+  exit 1
+fi
+
+-----------------------------------------------------------
+
+#!/bin/bash
+
+case "$1" in
+    start)
+        /usr/sbin/sshd
+        ;;
+    stop)
+        kill $(cat /var/run/sshd.pid)
+        ;;
+esac
+------------------------------------------------------------
+
+#!/bin/bash
+
+case "$1" in
+    start)
+        /usr/sbin/sshd
+        ;;
+    stop)
+        kill $(cat /var/run/sshd.pid)
+        ;;
+    *)
+        echo "Usage: $0 start|stop" ; exit 1
+        ;;
+esac
+-----------------------------------------------------------
+#!/bin/bash
+
+case "$1" in
+    start)
+        /usr/sbin/sshd
+        ;;
+    stop)
+        kill $(cat /var/run/sshd.pid)
+        ;;
+    *)
+        echo "Usage: $0 start|stop" ; exit 1
+        ;;
+esac
+-------------------------------------------------------------
+#!/bin/bash
+
+case "$1" in
+    start|START)
+        /usr/sbin/sshd
+        ;;
+    stop|STOP)
+        kill $(cat /var/run/sshd.pid)
+        ;;
+    *)
+        echo "Usage: $0 start|stop" ; exit 1
+        ;;
+esac
+----------------------------------------------------------------
+
+#!/bin/bash
+
+read -p "Enter y or n:" ANSWER
+
+case "$ANSWER" in
+    [yY]|[yY][eE][sS])
+        echo "You answered yes."
+        ;;
+    [nN]|[nN][oO])
+        echo "You answered no."
+        ;;
+   *)
+        echo "Invalid answer."
+        ;;
+esac
+------------------------------------------------------------
+#!/bin/bash
+
+read -p "Enter y or n: " ANSWER
+
+case "$ANSWER" in
+    [yY]*)
+        echo "You answered yes."
+        ;;
+   *)
+        echo "You answered something else."
+        ;;
+esac
+------------------------------------------------------
+#!/bin/bash
+
+INDEX=1
+while [ $INDEX -lt 6 ]
+do
+  echo "Creating project-${INDEX}"
+  mkdir /tmp/project-${INDEX}
+  ((INDEX++)) # INDEX=INDEX+1
+done
+-----------------------------------------------------
+#!/bin/bash
+
+while [ "$CORRECT" != "y" ]
+do
+  read -p "Enter your name: " NAME
+  read -p "Is ${NAME} correct? " CORRECT
+done
+---------------------------------------------------
+#!/bin/bash
+
+while ping -c 1 app1 >/dev/null
+do
+  echo "app1 still up..."
+  sleep 5
+done
+
+echo "app1 down, continuing."
+---------------------------------------------------
+
+#!/bin/bash
+
+LINE_NUM=1
+while read LINE
+do
+  echo "${LINE_NUM}: ${LINE}"  
+  ((LINE_NUM++))
+done < /etc/fstab
+
+----------------------------------------------------
+
+#!/bin/bash
+
+grep ext /etc/fstab | while read LINE
+do
+  echo "ext: ${LINE}"
+done
+----------------------------------------------------
+
+#!/bin/bash
+
+while true
+do
+  read -p "1: Show disk usage.  2: Show uptime. " CHOICE
+  case "$CHOICE" in
+    1)
+      df -h
+      ;;
+    2)
+      uptime
+      ;;
+    *) 
+      break
+      ;;
+  esac
+done
+
+-----------------------------------------------------------
+#!/bin/bash
+
+mysql -BNe 'show databases' | while read DB
+do
+  db-backed-up-recently $DB
+  if [ "$?" -eq "0" ]
+  then
+    continue
+  fi
+  backup $DB
+done
+-------------------------------------------------------
+
+# Wild Cards:
+#!/bin/bash
+
+cd /tmp
+for FILE in *.html
+do
+    echo "Copying $FILE"
+    cp $FILE /var/www-just-html/$FILE
+done
+--------------------------------------------------------
+#!/bin/bash
+
+for FILE in /tmp/*.html
+do
+    echo "Copying $FILE"
+    cp $FILE /var/www-just-html
+done
+-------------------------------------------------------
+#!/bin/bash
+
+# This will loop through all the "html" files in the current directroy.
+for FILE in *.html
+do
+    echo "Copying $FILE"
+    cp $FILE /var/www-just-html
+done
+---------------------------------------------------
+# Debugging Options
+#!/bin/bash -x
+
+TEST_VAR="test"
+echo "$TEST_VAR"
+---------------------------------------------------
+#!/bin/bash
+
+TEST_VAR="test"
+set -x
+echo $TEST_VAR
+set +x
+hostname
+-----------------------------------------------------
+
+#!/bin/bash -e
+
+FILE_NAME="/not/here"
+ls $FILE_NAME
+echo $FILE_NAME
+-----------------------------------------------------
+#!/bin/bash -ex
+
+FILE_NAME="/not/here"
+ls $FILE_NAME
+echo $FILE_NAME
+------------------------------------------------------
+#!/bin/bash -v
+
+TEST_VAR="test"
+echo "$TEST_VAR"
+-------------------------------------------------------
+#!/bin/bash -vx
+TEST_VAR="test"
+echo "$TEST_VAR"
+-------------------------------------------------------
+
+#!/bin/bash
+
+DEBUG=true
+
+if $DEBUG
+then
+  echo "Debug mode ON."
+else
+  echo "Debug mode OFF."
+fi
+-------------------------------------------------------
+
+#!/bin/bash
+
+VERBOSE=false
+HOST="google.com"
+PID="$$"
+PROGRAM_NAME="$0"
+THIS_HOST=$(hostname)
+
+logit () {
+  local LOG_LEVEL=$1
+  shift # <<<1 >>>
+  MSG=$@
+  TIMESTAMP=$(date +"%Y-%m-%d %T")
+  if [ $LOG_LEVEL = 'ERROR' ] || $VERBOSE || [ $LOG_LEVEL = 'INFO' ]
+  then
+    echo "${TIMESTAMP} ${THIS_HOST} ${PROGRAM_NAME}[${PID}]: ${LOG_LEVEL} ${MSG}"
+  fi
+}
+
+logit INFO "Processing data."
+
+fetch-data $HOST || logit ERROR "Could not fetch data from $HOST"
+
+------------------------------------------------------------
+
+
+
+
+
+
+Remote Scripts:
+----------------------------------------------------------
+#!/bin/sh
+for i in 192.168.33.2
+do
+  df=`ssh $i "df -Pl"`
+  echo "$df"
+  echo "$df" | awk '/^\/dev/{sub(/%/,"",$5); if ($5 > 95) print $5}'
+done
+
+-------------------------------------------------------------------
+
