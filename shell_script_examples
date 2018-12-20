@@ -862,3 +862,198 @@ done
 
 -------------------------------------------------------------------
 
+
+#!/bin/bash
+
+# Usage: show-total-disk-space-used
+# Shows how much local disk space is in use by the server.
+
+function round() {
+  # Returns a rounded number
+  local INTEGER=$(echo $1 | cut -f1 -d.)
+  [ -z "$INTEGER" ] && INTEGER=0
+
+  local DECIMAL=$(echo $1 | cut -s -f2 -d.)
+  [ -z "$DECIMAL" ] && DECIMAL=0
+  [ "$DECIMAL" -gt 4 ] && INTEGER=$(($INTEGER + 1))
+  echo $INTEGER
+}
+
+# Disk size used in kb, summed
+KB=$(df -lkP | awk '{print $3}' | grep -v Used | awk '{sum+=$1} END{printf("%d\n",sum)}')
+
+# Convert size to MB, GB, and TB
+MB=$(round $(echo $KB/1024           | bc -l | sed -e "s/\(\.[0-9]\).*/\1/g"))
+GB=$(round $(echo $KB/1024/1024      | bc -l | sed -e "s/\(\.[0-9]\).*/\1/g"))
+TB=$(round $(echo $KB/1024/1024/1024 | bc -l | sed -e "s/\(\.[0-9]\).*/\1/g"))
+
+# Use the largest human readable size to display
+if [ "$TB" -gt 0 ]
+then
+  TOTAL_DISK_SPACE_USED="${TB}T"
+elif [ "$GB" -gt 0 ]
+then
+  TOTAL_DISK_SPACE_USED="${GB}G"
+elif [ "$MB" -gt 0 ]
+then
+  TOTAL_DISK_SPACE_USED="${MB}M"
+else
+  TOTAL_DISK_SPACE_USED="${KB}K"
+fi
+
+echo -e "$(uname -n)\t${TOTAL_DISK_SPACE_USED}"
+
+-------------------------------------------------------------------
+
+#!/bin/bash
+
+# Usage: ping-host HOST [HOSTN]...
+# Retuns 0 if the hosts respond to ping or 1 if any of them fail to respond.
+#
+# Supported operating systems: Linux, Mac, BSDs, Solaris.
+
+
+# Help
+if [ -z "$1" ] || [ "$1" = '-h' ] || [ "$1" = '--help' ]
+then
+  echo 'Usage: ping-host HOST [HOSTN]...' >&2
+  echo 'Retuns 0 if the hosts respond to ping or 1 if any of them fail to respond.' >&2
+  exit
+fi
+
+# What OS are we on?
+OS=$(uname -s)
+
+if [ "$OS" = 'SunOS' ]
+then
+  # Solaris
+  PING='ping -t 10'
+  PING_SUFFIX_ARGS='1'
+  GREP_PATTERN='no'
+else
+  # Linux / Mac
+  PING='ping -c 1 -W 1'
+  PING_SUFFIX_ARGS=""
+  GREP_PATTERN='100%'
+fi
+
+# Hope for the best, prepare for the worst.
+RETURN_CODE=0
+
+# Loop through the hosts provided on the command line.
+for HOST in $@
+do
+  PING_RESULT=$($PING $HOST $PING_SUFFIX_ARGS 2>&1 | egrep "$GREP_PATTERN|unknown host" | cut -d, -f3 | wc -l)
+  [ "$PING_RESULT" -eq 0 ] || {
+    RETURN_CODE=1
+    echo "$HOST down"
+    mailx -s "Host is down" 
+  }
+done
+
+exit $RETURN_CODE
+----------------------------------------------------------------------------------------------------------------
+
+
+#!/bin/bash
+
+# Usage: touch-test
+# Touches and deletes a file on each of the locally mounted file systems. 
+# This can help point out read-only mounts and poorly performing mounts.
+
+# Run as root
+[ "$EUID" -eq 0 ] || {
+  echo 'Please run with sudo or as root.'
+  exit 1
+}
+
+TEST_FILE='touch-test-file'
+
+START=$(date)
+START_SECONDS=$(date +%s)
+
+for MOUNT in $(df -lP | egrep -v '^Filesystem|tmpfs' | awk '{print $NF}')
+do
+  TEST_FILE_ON_MOUNT="${MOUNT}/${TEST_FILE}"
+  echo "$(date) - Touching $TEST_FILE_ON_MOUNT"
+  touch $TEST_FILE_ON_MOUNT
+  rm $TEST_FILE_ON_MOUNT
+  echo "$(date) - Removed $TEST_FILE_ON_MOUNT"
+done
+
+END=$(date)
+END_SECONDS=$(date +%s)
+TOTAL_SECONDS=$(($END_SECONDS - $START_SECONDS))
+
+echo
+echo "Start: $START"
+echo "End:   $END"
+echo "Total: $TOTAL_SECONDS seconds"
+
+
+------------------------------------------------------------
+
+#!/bin/bash
+
+# Usage: email-when-up -e EMAIL_ADDRESS -h HOST
+# This script send an email when the server/host/device is reachable over the network.
+
+usage() {
+  echo "Usage: $0 -e EMAIL_ADDRESS -h HOST" >&2
+  exit
+}
+
+while getopts ":e:h:" opt; do
+  case "${opt}" in
+    e)
+      EMAIL_ADDRESS=${OPTARG}
+      ;;
+    h)
+      HOST=${OPTARG}
+      ;;
+    *)
+      usage
+      ;;
+  esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${EMAIL_ADDRESS}" ] || [ -z "${HOST}" ]
+then
+  usage
+fi
+
+# Loop until the server is up.
+SECONDS_TO_SLEEP=60
+while [ true ]
+do
+  ~/scripts/ping-host $HOST >/dev/null 2>&1
+  if [ "$?" -eq 0 ]
+  then
+    echo "${HOST} is up!  $(date)"
+    echo "${HOST} is up!  $(date)" | mailx -s "${HOST} is up." $EMAIL_ADDRESS
+    exit
+  else
+    echo "$(date) ${HOST} is still down."
+  fi
+  sleep $SECONDS_TO_SLEEP
+done
+
+------------------------------------------------------------
+
+#!/bin/bash
+# Detected zombie process
+for p in $(ps auxww | grep -w Z | grep -v PID | awk '{print $2}');
+do
+  parentpid="$(ps -p $p -o ppid=)"; # Kill the parent process id
+  if [ -n $parentpid ]
+  then
+    kill -9 $parentpid
+        if [ "$?" -eq "0" ]
+        then
+            echo Detected zombie process:"$PID". "$usr": . Successfully Killed;
+        else
+            echo Detected zombie process:"$PID".  "$usr": . Could not kill;
+        fi
+  fi
+done;
