@@ -1,7 +1,16 @@
-#!/bin/bash
+#!/bin/bash 
+# Author : Rns 
+# Script follows here: 
 echo "Scripting is fun!"
+pwd 
+ls
 
+
+$chmod +x script.sh
+./script.sh
 --------------------------------
+#Shell Types:
+#============
 
 #!/bin/csh
 echo "This script uses csh as the interpreter."
@@ -21,7 +30,9 @@ echo "This script uses zsh as the interpreter."
 #!/usr/bin/python
 print "This is a Python script."
 ---------------------------------------------------
-# Variables defining
+
+# Variables Usage
+#====================
 
 #!/bin/bash
 MY_SHELL="bash"
@@ -45,15 +56,30 @@ MY_SHELL="bash"
 echo "I am $MY_SHELLing on my keyboard."
 
 --------------------------------------------------
+# Readonly variable
+#==================
 
 #!/bin/bash 
 NAME=$1 
 readonly NAME 
 NAME=“RNS“
 
-./test.sh ip un pwd 
-
 --------------------------------------------------
+# Assign command output to a variable:
+#=====================================
+
+#!/bin/bash
+SERVER_NAME=$(hostname)
+echo "You are running this script on ${SERVER_NAME}."
+
+------------------------------------------------------
+
+#!/bin/bash
+SERVER_NAME=`hostname`
+echo "You are running this script on ${SERVER_NAME}."
+------------------------------------------------------
+#Special Variables:
+#===================
 
 #!/bin/sh
 
@@ -71,17 +97,9 @@ echo "The exit status of the last command  : $?"
 echo "The process number of the current shell : $$"
 echo "The process number of the last background : $!"
 
----------------------------------------------------
-#!/bin/bash
-SERVER_NAME=$(hostname)
-echo "You are running this script on ${SERVER_NAME}."
-
-------------------------------------------------------
-
-#!/bin/bash
-SERVER_NAME=`hostname`
-echo "You are running this script on ${SERVER_NAME}."
-------------------------------------------------------
+---------------------------------------------------------
+# Decision Making
+#================
 
 #!/bin/bash
 
@@ -123,22 +141,7 @@ else
 fi
 
 --------------------------------------------------------
-#!/bin/bash
 
-for COLOR in red green blue
-do
-  echo "COLOR: $COLOR"
-done
------------------------------------------------------
-#!/bin/bash
-
-COLORS="red green blue"
-
-for COLOR in $COLORS
-do
-  echo "COLOR: $COLOR"
-done
-------------------------------------------------------
 #!/bin/sh
 # Arithmatic Operators
 
@@ -356,6 +359,7 @@ else
 fi
 
 ------------------------------------------------------
+
 #Exit Statuses and Return Codes:
 
 #!/bin/bash
@@ -426,7 +430,228 @@ then
   exit 1
 fi
 exit 0
---------------------------------------------------
+-----------------------------------------------------
+# Case Statements:
+#=================
+
+#!/bin/bash
+
+case "$1" in
+    start)
+        /usr/sbin/sshd
+        ;;
+    stop)
+        kill $(cat /var/run/sshd.pid)
+        ;;
+esac
+------------------------------------------------------------
+
+#!/bin/bash
+
+case "$1" in
+    start)
+        /usr/sbin/sshd
+        ;;
+    stop)
+        kill $(cat /var/run/sshd.pid)
+        ;;
+    *)
+        echo "Usage: $0 start|stop" ; exit 1
+        ;;
+esac
+-----------------------------------------------------------
+#!/bin/bash
+
+case "$1" in
+    start)
+        /usr/sbin/sshd
+        ;;
+    stop)
+        kill $(cat /var/run/sshd.pid)
+        ;;
+    *)
+        echo "Usage: $0 start|stop" ; exit 1
+        ;;
+esac
+-------------------------------------------------------------
+#!/bin/bash
+
+case "$1" in
+    start|START)
+        /usr/sbin/sshd
+        ;;
+    stop|STOP)
+        kill $(cat /var/run/sshd.pid)
+        ;;
+    *)
+        echo "Usage: $0 start|stop" ; exit 1
+        ;;
+esac
+----------------------------------------------------------------
+
+#!/bin/bash
+
+read -p "Enter y or n:" ANSWER
+
+case "$ANSWER" in
+    [yY]|[yY][eE][sS])
+        echo "You answered yes."
+        ;;
+    [nN]|[nN][oO])
+        echo "You answered no."
+        ;;
+   *)
+        echo "Invalid answer."
+        ;;
+esac
+------------------------------------------------------------
+#!/bin/bash
+
+read -p "Enter y or n: " ANSWER
+
+case "$ANSWER" in
+    [yY]*)
+        echo "You answered yes."
+        ;;
+   *)
+        echo "You answered something else."
+        ;;
+esac
+
+-----------------------------------------------------
+# Loop Types - for:
+#===================
+
+#!/bin/bash
+
+for COLOR in red green blue
+do
+  echo "COLOR: $COLOR"
+done
+-----------------------------------------------------
+#!/bin/bash
+
+COLORS="red green blue"
+
+for COLOR in $COLORS
+do
+  echo "COLOR: $COLOR"
+done
+------------------------------------------------------
+# for loop with Wild Cards:
+#==============
+
+#!/bin/bash
+
+cd /tmp
+for FILE in *.html
+do
+    echo "Copying $FILE"
+    cp $FILE /var/www-just-html/$FILE
+done
+--------------------------------------------------------
+#!/bin/bash
+
+for FILE in /tmp/*.html
+do
+    echo "Copying $FILE"
+    cp $FILE /var/www-just-html
+done
+-------------------------------------------------------
+#!/bin/bash
+
+# This will loop through all the "html" files in the current directroy.
+for FILE in *.html
+do
+    echo "Copying $FILE"
+    cp $FILE /var/www-just-html
+done
+--------------------------------------------------------
+
+# Loop Types - while:
+#=====================
+
+#!/bin/bash
+
+INDEX=1
+while [ $INDEX -lt 6 ]
+do
+  echo "Creating project-${INDEX}"
+  mkdir /tmp/project-${INDEX}
+  ((INDEX++)) # INDEX=INDEX+1
+done
+-----------------------------------------------------
+#!/bin/bash
+
+while [ "$CORRECT" != "y" ]
+do
+  read -p "Enter your name: " NAME
+  read -p "Is ${NAME} correct? " CORRECT
+done
+---------------------------------------------------
+#!/bin/bash
+
+while ping -c 1 app1 >/dev/null
+do
+  echo "app1 still up..."
+  sleep 5
+done
+
+echo "app1 down, continuing."
+---------------------------------------------------
+
+#!/bin/bash
+
+LINE_NUM=1
+while read LINE
+do
+  echo "${LINE_NUM}: ${LINE}"  
+  ((LINE_NUM++))
+done < /etc/fstab
+
+----------------------------------------------------
+
+#!/bin/bash
+
+grep ext /etc/fstab | while read LINE
+do
+  echo "ext: ${LINE}"
+done
+----------------------------------------------------
+
+#!/bin/bash
+
+while true
+do
+  read -p "1: Show disk usage.  2: Show uptime. " CHOICE
+  case "$CHOICE" in
+    1)
+      df -h
+      ;;
+    2)
+      uptime
+      ;;
+    *) 
+      break
+      ;;
+  esac
+done
+
+-----------------------------------------------------------
+#!/bin/bash
+
+mysql -BNe 'show databases' | while read DB
+do
+  db-backed-up-recently $DB
+  if [ "$?" -eq "0" ]
+  then
+    continue
+  fi
+  backup $DB
+done
+-------------------------------------------------------
+# functions:
+#============
 
 #!/bin/bash
 
@@ -580,197 +805,6 @@ fi
 
 -----------------------------------------------------------
 
-#!/bin/bash
-
-case "$1" in
-    start)
-        /usr/sbin/sshd
-        ;;
-    stop)
-        kill $(cat /var/run/sshd.pid)
-        ;;
-esac
-------------------------------------------------------------
-
-#!/bin/bash
-
-case "$1" in
-    start)
-        /usr/sbin/sshd
-        ;;
-    stop)
-        kill $(cat /var/run/sshd.pid)
-        ;;
-    *)
-        echo "Usage: $0 start|stop" ; exit 1
-        ;;
-esac
------------------------------------------------------------
-#!/bin/bash
-
-case "$1" in
-    start)
-        /usr/sbin/sshd
-        ;;
-    stop)
-        kill $(cat /var/run/sshd.pid)
-        ;;
-    *)
-        echo "Usage: $0 start|stop" ; exit 1
-        ;;
-esac
--------------------------------------------------------------
-#!/bin/bash
-
-case "$1" in
-    start|START)
-        /usr/sbin/sshd
-        ;;
-    stop|STOP)
-        kill $(cat /var/run/sshd.pid)
-        ;;
-    *)
-        echo "Usage: $0 start|stop" ; exit 1
-        ;;
-esac
-----------------------------------------------------------------
-
-#!/bin/bash
-
-read -p "Enter y or n:" ANSWER
-
-case "$ANSWER" in
-    [yY]|[yY][eE][sS])
-        echo "You answered yes."
-        ;;
-    [nN]|[nN][oO])
-        echo "You answered no."
-        ;;
-   *)
-        echo "Invalid answer."
-        ;;
-esac
-------------------------------------------------------------
-#!/bin/bash
-
-read -p "Enter y or n: " ANSWER
-
-case "$ANSWER" in
-    [yY]*)
-        echo "You answered yes."
-        ;;
-   *)
-        echo "You answered something else."
-        ;;
-esac
-------------------------------------------------------
-#!/bin/bash
-
-INDEX=1
-while [ $INDEX -lt 6 ]
-do
-  echo "Creating project-${INDEX}"
-  mkdir /tmp/project-${INDEX}
-  ((INDEX++)) # INDEX=INDEX+1
-done
------------------------------------------------------
-#!/bin/bash
-
-while [ "$CORRECT" != "y" ]
-do
-  read -p "Enter your name: " NAME
-  read -p "Is ${NAME} correct? " CORRECT
-done
----------------------------------------------------
-#!/bin/bash
-
-while ping -c 1 app1 >/dev/null
-do
-  echo "app1 still up..."
-  sleep 5
-done
-
-echo "app1 down, continuing."
----------------------------------------------------
-
-#!/bin/bash
-
-LINE_NUM=1
-while read LINE
-do
-  echo "${LINE_NUM}: ${LINE}"  
-  ((LINE_NUM++))
-done < /etc/fstab
-
-----------------------------------------------------
-
-#!/bin/bash
-
-grep ext /etc/fstab | while read LINE
-do
-  echo "ext: ${LINE}"
-done
-----------------------------------------------------
-
-#!/bin/bash
-
-while true
-do
-  read -p "1: Show disk usage.  2: Show uptime. " CHOICE
-  case "$CHOICE" in
-    1)
-      df -h
-      ;;
-    2)
-      uptime
-      ;;
-    *) 
-      break
-      ;;
-  esac
-done
-
------------------------------------------------------------
-#!/bin/bash
-
-mysql -BNe 'show databases' | while read DB
-do
-  db-backed-up-recently $DB
-  if [ "$?" -eq "0" ]
-  then
-    continue
-  fi
-  backup $DB
-done
--------------------------------------------------------
-
-# Wild Cards:
-#!/bin/bash
-
-cd /tmp
-for FILE in *.html
-do
-    echo "Copying $FILE"
-    cp $FILE /var/www-just-html/$FILE
-done
---------------------------------------------------------
-#!/bin/bash
-
-for FILE in /tmp/*.html
-do
-    echo "Copying $FILE"
-    cp $FILE /var/www-just-html
-done
--------------------------------------------------------
-#!/bin/bash
-
-# This will loop through all the "html" files in the current directroy.
-for FILE in *.html
-do
-    echo "Copying $FILE"
-    cp $FILE /var/www-just-html
-done
----------------------------------------------------
 # Debugging Options
 #!/bin/bash -x
 
@@ -845,11 +879,6 @@ fetch-data $HOST || logit ERROR "Could not fetch data from $HOST"
 
 ------------------------------------------------------------
 
-
-
-
-
-
 Remote Scripts:
 ----------------------------------------------------------
 #!/bin/sh
@@ -861,7 +890,6 @@ do
 done
 
 -------------------------------------------------------------------
-
 
 #!/bin/bash
 
@@ -1057,3 +1085,6 @@ do
         fi
   fi
 done;
+
+---------------------------------------------------------
+
