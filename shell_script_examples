@@ -65,6 +65,14 @@ readonly NAME
 NAME=“RNS“
 
 --------------------------------------------------
+# Accepting User Input - Read
+#=============================
+
+#!/bin/bash
+read -p "Enter User Name - " USER
+echo "You entered User - " ${USER}
+
+--------------------------------------------------
 # Assign command output to a variable:
 #=====================================
 
