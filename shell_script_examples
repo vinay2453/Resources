@@ -609,7 +609,7 @@ done < /etc/passwd
 
 grep vagrant /etc/passwd | while read LINE
 do
-  echo "ext: ${LINE}"
+  echo "User: ${LINE}"
 done
 ----------------------------------------------------
 
