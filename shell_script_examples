@@ -716,10 +716,11 @@ my_function() {
 }
 
 # The value of GLOBAL_VAR is available to my_function
+GLOBAL_VAR=1
 my_function
 
 
-GLOBAL_VAR=1
+
 ------------------------------------------------------
 #!/bin/bash
 
