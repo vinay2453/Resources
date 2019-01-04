@@ -1062,24 +1062,3 @@ do
   sleep $SECONDS_TO_SLEEP
 done
 
-------------------------------------------------------------
-
-#!/bin/bash
-# Detected zombie process
-for p in $(ps auxww | grep -w Z | grep -v PID | awk '{print $2}');
-do
-  parentpid="$(ps -p $p -o ppid=)"; # Kill the parent process id
-  if [ -n $parentpid ]
-  then
-    kill -9 $parentpid
-        if [ "$?" -eq "0" ]
-        then
-            echo Detected zombie process:"$PID". "$usr": . Successfully Killed;
-        else
-            echo Detected zombie process:"$PID".  "$usr": . Could not kill;
-        fi
-  fi
-done;
-
----------------------------------------------------------
-
